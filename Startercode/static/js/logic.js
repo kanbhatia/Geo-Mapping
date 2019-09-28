@@ -2,7 +2,7 @@
 // We set the longitude, latitude, and the starting zoom level
 // This gets inserted into the div with an id of 'map'
 var myMap = L.map("map", {
-    center: [45.52, -122.67],
+    center: [41.099017, -114.113293],
     zoom: 5
 });
 
@@ -19,19 +19,55 @@ function earthquake(quake) {
     (quake.features).forEach(quake => {
         lon = quake.geometry.coordinates[0];
         lat = quake.geometry.coordinates[1];
-
+        mag = quake.properties.mag;
+        place = quake.properties.place;
+        if (mag <1) {
+            color = "#CCFF99";
+        }
+        else if (mag <2) {
+            color = "#66FF99";
+        }
+        else if (mag <3) {
+            color = "#FF9999";
+        }
+        else if (mag <4) {
+            color = "#ff9966";
+        }
+        else if (mag <5) {
+            color = "#ff5050";
+        }
+        else {
+            color = "#ff0000";
+        }
         L.circle([lat, lon], {
-            color: "green",
-            fillColor: "green",
-            fillOpacity: 0.75,
-            radius: 5000
-        }).addTo(myMap);
+            color: "black",
+            weight: 0.5,
+            fillColor: color,
+            fillOpacity: 1,
+            radius: mag*20000
+        }).bindPopup("<h1>" + place + "</h1> <hr> <h3> Magnitude: " +mag+ "</h3>").addTo(myMap);
     });
+};
 
+// var legend = L.control({position: 'bottomright'});
 
+// legend.onAdd = function (map) {
 
+//     var div = L.DomUtil.create('div', 'info legend'),
+//     grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+//     labels = [];
 
+//     // loop through our density intervals and generate a label with a colored square for each interval
+//     for (var i = 0; i < grades.length; i++) {
+//         div.innerHTML +=
+//             '<i style="background:' + (grades[i] + 1) + '"></i> ' +
+//             grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+// }
 
-}
+// return div;
+// };
+
+// legend.addTo(map);
+
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 d3.json(url, earthquake);
