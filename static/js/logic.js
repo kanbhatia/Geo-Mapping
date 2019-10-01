@@ -22,16 +22,16 @@ function earthquake(quake) {
         mag = quake.properties.mag;
         place = quake.properties.place;
         if (mag <1) {
-            color = "#CCFF99";
+            color = "#99FF99";
         }
         else if (mag <2) {
-            color = "#66FF99";
+            color = "#ffff66";
         }
         else if (mag <3) {
-            color = "#FF9999";
+            color = "#FFB266";
         }
         else if (mag <4) {
-            color = "#ff9966";
+            color = "#ff9933";
         }
         else if (mag <5) {
             color = "#ff5050";
@@ -50,10 +50,10 @@ function earthquake(quake) {
 };
 
 function markerColor(d) {
-    return d === 1  ? "#CCFF99" :
-           d === 2  ? "#66FF99" :
-           d === 3 ? "#FF9999" :
-           d === 4 ? "#ff9966" :
+    return d === 1  ? "#99FF99" :
+           d === 2  ? "#ffff66" :
+           d === 3 ? "#FFB266" :
+           d === 4 ? "#ff9933" :
            d === 5 ? "#ff5050" :
                         "#ff0000";
 }
