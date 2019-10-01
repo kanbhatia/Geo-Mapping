@@ -49,25 +49,29 @@ function earthquake(quake) {
     });
 };
 
-// var legend = L.control({position: 'bottomright'});
+function markerColor(d) {
+    return d === 1  ? "#CCFF99" :
+           d === 2  ? "#66FF99" :
+           d === 3 ? "#FF9999" :
+           d === 4 ? "#ff9966" :
+           d === 5 ? "#ff5050" :
+                        "#ff0000";
+}
 
-// legend.onAdd = function (map) {
+var legend = L.control({position: 'bottomright'});
 
-//     var div = L.DomUtil.create('div', 'info legend'),
-//     grades = [0, 10, 20, 50, 100, 200, 500, 1000],
-//     labels = [];
+ legend.onAdd = function () {
+     var div = L.DomUtil.create('div', 'info legend'),
+         magnitudes = [0, 1, 2, 3, 4, 5];
+     for (var i = 0; i < magnitudes.length; i++) {
+         div.innerHTML +=
+             '<i style="background:' + markerColor(magnitudes[i] + 1) + '"></i> ' +
+     + magnitudes[i] + (magnitudes[i + 1] ? ' - ' + magnitudes[i + 1] + '<br>' : ' + ');
+     }
+     return div;
+ };
+ legend.addTo(myMap);
 
-//     // loop through our density intervals and generate a label with a colored square for each interval
-//     for (var i = 0; i < grades.length; i++) {
-//         div.innerHTML +=
-//             '<i style="background:' + (grades[i] + 1) + '"></i> ' +
-//             grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-// }
-
-// return div;
-// };
-
-// legend.addTo(map);
 
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 d3.json(url, earthquake);
